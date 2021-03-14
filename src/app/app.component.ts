@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { ToastrService } from 'ngx-toastr';
 import { AppService } from './app.service';
 import { Interaction } from './model/interaction.model';
@@ -10,6 +10,8 @@ import { Question } from './model/question.model';
 import { HttpErrorResponse } from '@angular/common/http';
 import { faTimes, faCheck } from '@fortawesome/free-solid-svg-icons';
 import * as _ from 'lodash';
+import { CodemirrorComponent } from '@ctrl/ngx-codemirror';
+import { reject } from 'lodash';
 
 @Component({
   selector: 'app-root',
@@ -17,6 +19,7 @@ import * as _ from 'lodash';
   styleUrls: ['./app.component.scss'],
 })
 export class AppComponent implements OnInit {
+  @ViewChild('codeEditor', { static: false }) codeEditor: CodemirrorComponent;
   faTimes = faTimes;
   faCheck = faCheck;
   answerTemplate = 'A resposta correta para esta questão é:';
@@ -26,7 +29,11 @@ export class AppComponent implements OnInit {
   loading = false;
   allAnswersCorrect = true;
   user: User;
-  code: string;
+  code: string = `public class Main {
+    public static void main() {
+      int i = 2;
+    }
+  }`;
 
   constructor(
     private service: AppService,
@@ -50,6 +57,30 @@ export class AppComponent implements OnInit {
       this.user = new User(user.firstName, user.lastName, user.email);
       console.log(this.user);
       this.phase = 1;
+    });
+  }
+
+  getFile(event) {
+    const input = event.target;
+    if ('files' in input && input.files.length > 0) {
+      this.placeFileContent(input.files[0]);
+    }
+  }
+
+  private placeFileContent(file) {
+    this.readFileContent(file)
+      .then((content: string) => {
+        this.code = content;
+      })
+      .catch((error) => console.log(error));
+  }
+
+  private readFileContent(file) {
+    const reader = new FileReader();
+    return new Promise((resolve, reject) => {
+      reader.onload = (event) => resolve(event.target.result);
+      reader.onerror = (error) => reject(error);
+      reader.readAsText(file);
     });
   }
 

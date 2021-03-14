@@ -1,15 +1,18 @@
 /* You can add global styles to this file, and also import other style files */
-
+@import '~codemirror/lib/codemirror';
+@import '~codemirror/theme/darcula';
 
 body {
   font-family: Roboto, Arial, sans-serif;
   margin: 0;
 }
 
-@import '~codemirror/lib/codemirror';
+.CodeMirror {
+  width: 500px;
+  max-width: 500px;
+  max-height: 400px;
+  height: 400px;
+}
 
 @import '@angular/material/prebuilt-themes/indigo-pink.css';
-
-
-// regular style toast
 @import '~ngx-toastr/toastr';
