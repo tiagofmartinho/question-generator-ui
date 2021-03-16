@@ -29,7 +29,7 @@ export class AppService {
     );
   }
 
-  wakeServer() {
+  wakeServer(): Observable<string> {
     return this.http.get(`${environment.baseUrl}/wakeup`, {
       responseType: 'text',
     });

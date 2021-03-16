@@ -23,11 +23,11 @@
   </div>
 
   <div class="row">
-    <div class="col">
+    <div class="col-7">
       <form class="code-submission-form" *ngIf="phase !== 0">
         <p>Olá {{ user.firstName }}!</p>
         <label for="editor"
-          >Coloca o teu código aqui (garante que não tem erros!):</label
+          >Copia e cola o teu código ou escolhe um ficheiro .java do teu sistema. Garante que não tem erros!</label
         >
         <ngx-codemirror
           id="editor"
@@ -42,18 +42,19 @@
           }"
         ></ngx-codemirror>
         <br />
-        <div>
-          <!-- <input type="file" accept=".java" (change)="getFile($event)" /> -->
-          <button
-            mat-raised-button
-            color="primary"
-            [disabled]="code == null || code === ''"
-            *ngIf="phase === 1 && !loading"
-            (click)="submitCode()"
-          >
-            SUBMETER CÓDIGO
-          </button>
-        </div>
+          <div *ngIf="phase === 1">
+            <label for="upload-input" class="btn" style="border: 1px solid">Escolher ficheiro...</label>
+            <input type="file" accept=".java" (change)="getFile($event)" style="visibility:hidden;" id="upload-input"/>
+              <button
+                mat-raised-button
+                color="primary"
+                [disabled]="code == null || code === ''"
+                *ngIf="phase === 1 && !loading"
+                (click)="submitCode()"
+              >
+                SUBMETER CÓDIGO
+              </button>
+          </div>
       </form>
     </div>
     <div class="col">
@@ -198,6 +199,7 @@
                 placeholder="Digita 1 valor por linha..."
                 name="answer{{ index }}"
                 [disabled]="phase === 3"
+                (keypress)="omitSpecialChars($event)"
                 required
                 [(ngModel)]="qa.userAnswer"
               ></textarea>
@@ -209,7 +211,7 @@
           </div>
         </div>
         <br />
-        <div class="colft" *ngIf="phase === 2">
+        <div *ngIf="phase === 2">
           <button
             mat-raised-button
             color="primary"
@@ -219,7 +221,7 @@
             SUBMETER RESPOSTAS
           </button>
         </div>
-        <div class="col text-center" *ngIf="phase === 3 && !loading">
+        <div *ngIf="phase === 3 && !loading">
           <button mat-raised-button color="primary" (click)="cleanup()">
             SUBMETER NOVO CÓDIGO
           </button>
