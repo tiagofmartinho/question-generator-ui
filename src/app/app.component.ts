@@ -28,7 +28,8 @@ export class AppComponent implements OnInit {
   loading = false;
   allAnswersCorrect = true;
   user: User;
-  code = `public class Main {}`;
+  defaultCode = 'public class Main {}';
+  code = this.defaultCode;
 
   private static isCollection(qa: QuestionAnswersMapping): boolean {
     return (
@@ -220,7 +221,7 @@ export class AppComponent implements OnInit {
   cleanup(): void {
     this.phase = 1;
     this.allAnswersCorrect = true;
-    this.code = '';
+    this.code = this.defaultCode;
     this.interaction = new Interaction([]);
   }
 
