@@ -1,17 +1,12 @@
 /* You can add global styles to this file, and also import other style files */
 @import '~codemirror/lib/codemirror';
-@import '~codemirror/theme/darcula';
-
-body {
-  font-family: Roboto, Arial, sans-serif;
-  margin: 0;
-}
+@import '~codemirror/theme/idea';
+@import '~codemirror/theme/neat';
 
 .CodeMirror {
-  width: 600px;
-  max-width: 600px;
-  max-height: 450px;
-  height: 450px;
+  max-width: 700px;
+  height: 400px;
+  max-height: 500px;
 }
 
 @import '@angular/material/prebuilt-themes/indigo-pink.css';

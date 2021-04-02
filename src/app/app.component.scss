@@ -6,12 +6,21 @@
     width: 100%;
 }
 
-.container header, form {
-    padding-left: 2%;
+h1 {
+  font-size: 30px;
+  font-weight: 500;
 }
+
+.tagline {
+  font-size: 16px;
+}
+
+.material-icons { font-size: 18px }
 
 .container {
     min-height: 100vh; /* will cover the 100% of viewport */
+    min-width: 80vw;
+    max-width: 90vw;
     overflow: hidden;
     display: block;
     position: relative;

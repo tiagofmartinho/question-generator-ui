@@ -1,11 +1,11 @@
 <div class="container">
   <div class="mt-4">
-    <img src="../assets/iscte_logo.jpg" width="370" height="100" />
+    <img src="../assets/iscte_logo.jpg" width="320" height="100" />
   </div>
 
   <header>
-    <h1>Question Generator</h1>
-    <p class="tagline">Gera questões sobre o teu próprio código!</p>
+    <h1>Programming Questions' Generator</h1>
+    <p class="tagline">Gera questões sobre o teu próprio código! <span class="material-icons">quiz</span></p>
   </header>
   <br />
   <div class="col text-center" *ngIf="phase === 0">
@@ -23,10 +23,10 @@
   </div>
 
   <div class="row">
-    <div class="col-7">
+    <div class="col-6">
       <form class="code-submission-form" *ngIf="phase !== 0">
         <p>Olá {{ user.firstName }}!</p>
-        <label for="editor"
+        <label *ngIf="phase === 1" for="editor"
           >Copia e cola o teu código ou escolhe um ficheiro .java do teu sistema. Garante que não tem erros!</label
         >
         <ngx-codemirror
@@ -37,27 +37,28 @@
           name="code"
           [options]="{
             lineNumbers: true,
-            theme: 'darcula',
+            theme: 'neat',
             mode: 'text/x-java'
           }"
         ></ngx-codemirror>
         <br />
           <div *ngIf="phase === 1">
-            <label for="upload-input" class="btn" style="border: 1px solid">Escolher ficheiro...</label>
+            <label for="upload-input" class="btn" style="border: 1px solid; margin-bottom: 0">Escolher ficheiro...</label>
+            &nbsp;&nbsp;
+            <button
+              mat-raised-button
+              color="primary"
+              [disabled]="code == null || code === ''"
+              *ngIf="phase === 1 && !loading"
+              (click)="submitCode()"
+            >
+              SUBMETER CÓDIGO
+            </button>
             <input type="file" accept=".java" (change)="getFile($event)" style="visibility:hidden;" id="upload-input"/>
-              <button
-                mat-raised-button
-                color="primary"
-                [disabled]="code == null || code === ''"
-                *ngIf="phase === 1 && !loading"
-                (click)="submitCode()"
-              >
-                SUBMETER CÓDIGO
-              </button>
           </div>
       </form>
     </div>
-    <div class="col">
+    <div class="col-6">
       <form
         class="answer-submission-form"
         *ngIf="(phase === 2 || phase === 3) && !loading"
