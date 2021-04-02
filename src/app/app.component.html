@@ -1,4 +1,5 @@
 <div class="container">
+  <div class="ml-4">
   <div class="mt-4">
     <img src="../assets/iscte_logo.jpg" width="320" height="100" />
   </div>
@@ -25,10 +26,12 @@
   <div class="row">
     <div class="col-6">
       <form class="code-submission-form" *ngIf="phase !== 0">
-        <p>Olá {{ user.firstName }}!</p>
-        <label *ngIf="phase === 1" for="editor"
+        <div *ngIf="phase === 1">
+          <p>Olá {{ user.firstName }}!</p>
+          <label for="editor"
           >Copia e cola o teu código ou escolhe um ficheiro .java do teu sistema. Garante que não tem erros!</label
-        >
+          >
+        </div>
         <ngx-codemirror
           id="editor"
           required
@@ -224,7 +227,7 @@
         </div>
         <div *ngIf="phase === 3 && !loading">
           <button mat-raised-button color="primary" (click)="cleanup()">
-            SUBMETER NOVO CÓDIGO
+            NOVA SUBMISSÃO
           </button>
         </div>
       </form>
@@ -238,4 +241,5 @@
   <footer>
     <div class="text-muted text-center mt-4 mb-4">© 2021 Tiago Martinho</div>
   </footer>
+  </div>
 </div>
