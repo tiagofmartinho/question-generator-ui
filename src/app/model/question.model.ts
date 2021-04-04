@@ -1,5 +1,5 @@
 export interface Question {
-    questionId?: number;
-    question?: string;
-    returnType?: string;
+  questionId?: number;
+  question?: string;
+  returnType?: string;
 }

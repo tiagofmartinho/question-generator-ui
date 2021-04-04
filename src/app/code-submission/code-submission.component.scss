@@ -1,12 +1,17 @@
-input:not(#upload-input){
+input:not(#upload-input) {
   border-radius: 10px;
-  border: 1px solid rgba(136, 136, 136, .3);
+  border: 1px solid rgba(136, 136, 136, 0.3);
   -webkit-background-clip: padding-box; /* for Safari */
   background-clip: padding-box;
 }
 
 input#upload-input {
-  border: 1px solid rgba(136, 136, 136, .3);
+  border: 1px solid rgba(136, 136, 136, 0.3);
+}
+
+
+form p {
+  font-weight: 500;
 }
 
 .code-submission-form {

@@ -1,0 +1,24 @@
+h4 {
+  font-weight: 500;
+}
+
+textarea {
+  border-radius: 10px;
+  border: 1px solid rgba(136, 136, 136, 0.3);
+  -webkit-background-clip: padding-box; /* for Safari */
+  background-clip: padding-box;
+}
+
+input[type=text] {
+  border-radius: 6px;
+  border: 1px solid rgba(136, 136, 136, 0.3);
+}
+
+input[type=number] {
+  border-radius: 6px;
+  border: 1px solid rgba(136, 136, 136, 0.3);
+}
+
+.full-width {
+  width: 100%;
+}

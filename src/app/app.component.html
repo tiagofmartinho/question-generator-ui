@@ -1,198 +1,36 @@
 <div class="container">
   <div class="ml-4">
     <app-header></app-header>
-    <br />
-    <app-login *ngIf="phase === 0" (newUserEvent)="user = $event" (newPhaseEvent)="phase = $event"></app-login>
+    <br/>
+    <app-login
+      *ngIf="phase === 0"
+      (newUserEvent)="user = $event"
+      (newPhaseEvent)="phase = $event"
+    ></app-login>
 
-  <div class="row">
-    <div class="col-6" *ngIf="phase !== 0">
-      <app-code-submission
-        [phase]="phase"
-        [user]="user"
-        [code]="code"
-        [loading]="loading"
-        [interaction]="interaction"
-        (codeSubmissionEvent)="updateValues($event)"></app-code-submission>
+    <div class="row">
+      <div class="col-6" *ngIf="phase !== 0">
+        <app-code-submission
+          [phase]="phase"
+          [user]="user"
+          [code]="code"
+          [loading]="loading"
+          [interaction]="interaction"
+          (codeSubmissionEvent)="codeSubmissionUpdate($event)"
+        ></app-code-submission>
+      </div>
+      <div class="col-6" *ngIf="(phase === 2 || phase === 3) && !loading">
+        <app-answer-submission [loading]="loading" [phase]="phase" [interaction]="interaction"
+                               (cleanupEvent)="cleanup($event)"></app-answer-submission>
+      </div>
     </div>
-    <div class="col-6">
-      <form
-        class="answer-submission-form"
-        *ngIf="(phase === 2 || phase === 3) && !loading"
-        #answerSubmissionForm="ngForm"
-      >
-        <br />
-        <h4>Responde às seguintes questões sobre o teu código:</h4>
-        <div
-          *ngFor="
-            let qa of interaction?.qas;
-            let index = index;
-            trackBy: trackByIndex
-          "
-        >
-          <div
-            *ngIf="
-              qa.question.returnType != 'BOOLEAN' &&
-              qa.question.returnType != 'COLLECTION'
-            "
-          >
-            <label>
-              {{ index + 1 }}. {{ qa.question.question }}
-              <fa-icon
-                *ngIf="isAnswerCorrect(qa)"
-                [icon]="faCheck"
-                style="color: green"
-              ></fa-icon>
-              <fa-icon
-                *ngIf="isAnswerIncorrect(qa)"
-                [icon]="faTimes"
-                style="color: red"
-              ></fa-icon>
-              <br />
-              <input
-                class="mt-2"
-                type="number"
-                *ngIf="qa.question.returnType != 'STRING'"
-                name="answer{{ index }}"
-                [disabled]="phase === 3"
-                required
-                [(ngModel)]="qa.userAnswer"
-              />
-              <input
-                class="mt-2"
-                size="40"
-                type="text"
-                *ngIf="qa.question.returnType == 'STRING'"
-                name="answer{{ index }}"
-                [disabled]="phase === 3"
-                required
-                [(ngModel)]="qa.userAnswer"
-              />
-            </label>
-            <i
-              class="text-muted"
-              *ngIf="
-                qa.correctAnswer != null && qa.correctAnswer != qa.userAnswer
-              "
-            >
-              <br />
-              {{ answerTemplate }} {{ qa.correctAnswer }}
-            </i>
-          </div>
 
-          <div *ngIf="qa.question.returnType == 'BOOLEAN'">
-            <label id="radio-label">
-              {{ index + 1 }}. {{ qa.question.question }}
-            </label>
-            <br />
-            <mat-radio-group
-              required
-              [disabled]="phase === 3"
-              class="radio-group mt-2"
-              [(ngModel)]="qa.userAnswer"
-              name="answer{{ index }}"
-              aria-labelledby="radio-label"
-            >
-              <mat-radio-button value="true"
-                >Verdadeiro
-                <fa-icon
-                  *ngIf="isAnswerCorrect(qa) && qa.userAnswer == 'true'"
-                  [icon]="faCheck"
-                  style="color: green"
-                ></fa-icon>
-                <fa-icon
-                  *ngIf="isAnswerIncorrect(qa) && qa.userAnswer == 'true'"
-                  [icon]="faTimes"
-                  style="color: red"
-                ></fa-icon>
-              </mat-radio-button>
-              <br />
-              <mat-radio-button value="false"
-                >Falso
-                <fa-icon
-                  *ngIf="isAnswerCorrect(qa) && qa.userAnswer == 'false'"
-                  [icon]="faCheck"
-                  style="color: green"
-                ></fa-icon>
-                <fa-icon
-                  *ngIf="isAnswerIncorrect(qa) && qa.userAnswer == 'false'"
-                  [icon]="faTimes"
-                  style="color: red"
-                ></fa-icon>
-              </mat-radio-button>
-            </mat-radio-group>
-            <br />
-            <i
-              class="text-muted"
-              *ngIf="
-                qa.correctAnswer != null && qa.correctAnswer != qa.userAnswer
-              "
-            >
-              {{ answerTemplate }}
-              {{ qa.correctAnswer == "true" ? "Verdadeiro" : "Falso" }}
-            </i>
-          </div>
-
-          <div
-            *ngIf="qa.question.returnType == 'COLLECTION'"
-            class="example-full-width"
-          >
-            <label>
-              {{ index + 1 }}. {{ qa.question.question }}
-              <fa-icon
-                *ngIf="isAnswerCorrect(qa)"
-                [icon]="faCheck"
-                style="color: green"
-              ></fa-icon>
-              <fa-icon
-                *ngIf="isAnswerIncorrect(qa)"
-                [icon]="faTimes"
-                style="color: red"
-              ></fa-icon>
-              <br />
-              <textarea
-                class="mt-2"
-                rows="3"
-                cols="40"
-                placeholder="Digita 1 valor por linha..."
-                name="answer{{ index }}"
-                [disabled]="phase === 3"
-                (keypress)="omitSpecialChars($event)"
-                required
-                [(ngModel)]="qa.userAnswer"
-              ></textarea>
-            </label>
-            <i class="text-muted" *ngIf="isAnswerIncorrect(qa)">
-              <br />
-              {{ answerTemplate }} {{ qa.correctAnswer }}
-            </i>
-          </div>
-        </div>
-        <br />
-        <div *ngIf="phase === 2">
-          <button
-            mat-raised-button
-            color="primary"
-            [disabled]="!answerSubmissionForm.valid"
-            (click)="submitAnswers()"
-          >
-            SUBMETER RESPOSTAS
-          </button>
-        </div>
-        <div *ngIf="phase === 3 && !loading">
-          <button mat-raised-button color="primary" (click)="cleanup()">
-            NOVA SUBMISSÃO
-          </button>
-        </div>
-      </form>
+    <div *ngIf="loading" style="margin: auto; width: 10%">
+      <mat-spinner [diameter]="50"></mat-spinner>
     </div>
-  </div>
 
-  <div *ngIf="loading" style="margin: auto; width: 10%">
-    <mat-spinner [diameter]="50"></mat-spinner>
-  </div>
-
-  <footer>
-    <div class="text-muted text-center mt-4 mb-4">© 2021 Tiago Martinho</div>
-  </footer>
+    <footer>
+      <div class="text-muted text-center mt-4 mb-4">© 2021 Tiago Martinho</div>
+    </footer>
   </div>
 </div>

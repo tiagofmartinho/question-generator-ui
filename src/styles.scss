@@ -1,7 +1,7 @@
 /* You can add global styles to this file, and also import other style files */
-@import '~codemirror/lib/codemirror';
-@import '~codemirror/theme/idea';
-@import '~codemirror/theme/neat';
+@import "~codemirror/lib/codemirror";
+@import "~codemirror/theme/idea";
+@import "~codemirror/theme/neat";
 
 .CodeMirror {
   max-width: 700px;
@@ -9,5 +9,5 @@
   max-height: 500px;
 }
 
-@import '@angular/material/prebuilt-themes/indigo-pink.css';
-@import '~ngx-toastr/toastr';
+@import "@angular/material/prebuilt-themes/indigo-pink.css";
+@import "~ngx-toastr/toastr";

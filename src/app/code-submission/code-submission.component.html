@@ -2,7 +2,8 @@
   <div *ngIf="phase === 1">
     <p>Olá {{ user.firstName }}!</p>
     <label for="editor"
-    >Copia e cola o teu código ou escolhe um ficheiro .java do teu sistema. Garante que não tem erros!</label
+      >Copia e cola o teu código ou escolhe um ficheiro .java do teu sistema.
+      Garante que não tem erros!</label
     >
   </div>
   <ngx-codemirror
@@ -12,14 +13,19 @@
     [(ngModel)]="code"
     name="code"
     [options]="{
-            lineNumbers: true,
-            theme: 'neat',
-            mode: 'text/x-java'
-          }"
+      lineNumbers: true,
+      theme: 'neat',
+      mode: 'text/x-java'
+    }"
   ></ngx-codemirror>
   <br />
   <div *ngIf="phase === 1">
-    <label for="upload-input" class="btn" style="border: 1px solid; margin-bottom: 0">Escolher ficheiro...</label>
+    <label
+      for="upload-input"
+      class="btn"
+      style="border: 1px solid; margin-bottom: 0"
+      >Escolher ficheiro...</label
+    >
     &nbsp;&nbsp;
     <button
       mat-raised-button
@@ -30,6 +36,12 @@
     >
       SUBMETER CÓDIGO
     </button>
-    <input type="file" accept=".java" (change)="getFile($event)" style="visibility:hidden;" id="upload-input"/>
+    <input
+      type="file"
+      accept=".java"
+      (change)="getFile($event)"
+      style="visibility: hidden"
+      id="upload-input"
+    />
   </div>
 </form>

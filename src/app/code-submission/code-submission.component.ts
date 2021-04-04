@@ -1,16 +1,16 @@
-import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
-import {User} from '../model/user.model';
-import {Subscription} from 'rxjs';
-import {AppService} from '../app.service';
-import {Question} from '../model/question.model';
-import {Interaction} from '../model/interaction.model';
-import {ToastrService} from 'ngx-toastr';
-import {HttpErrorResponse} from '@angular/common/http';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { User } from '../model/user.model';
+import { Subscription } from 'rxjs';
+import { AppService } from '../app.service';
+import { Question } from '../model/question.model';
+import { Interaction } from '../model/interaction.model';
+import { ToastrService } from 'ngx-toastr';
+import { HttpErrorResponse } from '@angular/common/http';
 
 @Component({
   selector: 'app-code-submission',
   templateUrl: './code-submission.component.html',
-  styleUrls: ['./code-submission.component.scss']
+  styleUrls: ['./code-submission.component.scss'],
 })
 export class CodeSubmissionComponent implements OnInit {
   @Input() phase: number;
@@ -18,12 +18,17 @@ export class CodeSubmissionComponent implements OnInit {
   @Input() code: string;
   @Input() loading: boolean;
   @Input() interaction: Interaction;
-  @Output() codeSubmissionEvent = new EventEmitter <{ phase: number, user: User, code: string, loading: boolean, interaction: Interaction }>();
+  @Output() codeSubmissionEvent = new EventEmitter<{
+    phase: number;
+    user: User;
+    code: string;
+    loading: boolean;
+    interaction: Interaction;
+  }>();
 
-  constructor(private service: AppService, private toastr: ToastrService) { }
+  constructor(private service: AppService, private toastr: ToastrService) {}
 
-  ngOnInit(): void {
-  }
+  ngOnInit(): void {}
 
   submitCode(): Subscription {
     this.loading = true;
@@ -35,7 +40,13 @@ export class CodeSubmissionComponent implements OnInit {
         this.interaction.userId = data?.userId;
         this.mapQuestionsToModel(data?.questions);
         this.loading = false;
-        this.codeSubmissionEvent.emit({phase: this.phase, user: this.user, code: this.code, loading: this.loading, interaction: this.interaction});
+        this.codeSubmissionEvent.emit({
+          phase: this.phase,
+          user: this.user,
+          code: this.code,
+          loading: this.loading,
+          interaction: this.interaction,
+        });
       },
       (error) => {
         this.handleError(error);
@@ -46,9 +57,7 @@ export class CodeSubmissionComponent implements OnInit {
 
   private mapQuestionsToModel(questions: Question[]): void {
     if (questions?.length > 0) {
-      questions.forEach((q) =>
-        this.interaction.qas.push({question: q })
-      );
+      questions.forEach((q) => this.interaction.qas.push({ question: q }));
       this.phase = 2;
     } else {
       this.toastr.error(
@@ -72,7 +81,6 @@ export class CodeSubmissionComponent implements OnInit {
       .catch((error) => console.log(error));
   }
 
-
   private readFileContent(file): Promise<any> {
     const reader = new FileReader();
     return new Promise((resolve, reject) => {
@@ -90,8 +98,7 @@ export class CodeSubmissionComponent implements OnInit {
           'O teu código tem erros. Por favor submete código sintaticamente correto.'
         );
       }
-    }
-    else if (error.status === 500) {
+    } else if (error.status === 500) {
       this.toastr.error(
         'O servidor não está disponível neste momento ou houve um erro a processar o teu pedido. Por favor tenta mais tarde.'
       );
