@@ -3,10 +3,8 @@ import { ToastrService } from 'ngx-toastr';
 import { AppService } from './app.service';
 import { Interaction } from './model/interaction.model';
 import { QuestionAnswersMapping } from './model/question-answers-mapping.model';
-import { GoogleLoginProvider, SocialAuthService } from 'angularx-social-login';
 import { User } from './model/user.model';
 import 'codemirror/mode/clike/clike';
-import { Question } from './model/question.model';
 import { HttpErrorResponse } from '@angular/common/http';
 import { faTimes, faCheck } from '@fortawesome/free-solid-svg-icons';
 import * as _ from 'lodash';
@@ -23,13 +21,13 @@ export class AppComponent implements OnInit {
   faTimes = faTimes;
   faCheck = faCheck;
   answerTemplate = 'A resposta correta para esta questão é:';
-  interaction = new Interaction([]);
+  interaction: Interaction;
   phase = 0;
   loading = false;
   allAnswersCorrect = true;
-  user: User;
   defaultCode = 'public class Main {}';
   code = this.defaultCode;
+  user: User;
 
   private static isCollection(qa: QuestionAnswersMapping): boolean {
     return (
@@ -62,7 +60,6 @@ export class AppComponent implements OnInit {
   constructor(
     private service: AppService,
     private toastr: ToastrService,
-    private authService: SocialAuthService
   ) {}
 
   ngOnInit(): void {
@@ -76,54 +73,12 @@ export class AppComponent implements OnInit {
     );
   }
 
-  login(): void {
-    this.authService.signIn(GoogleLoginProvider.PROVIDER_ID).then((user) => {
-      this.user = new User(user.firstName, user.lastName, user.email);
-      console.log(this.user);
-      this.phase = 1;
-    });
-  }
-
-  getFile(event): void {
-    const input = event.target;
-    if ('files' in input && input.files.length > 0) {
-      this.placeFileContent(input.files[0]);
-    }
-  }
-
-  private placeFileContent(file): void {
-    this.readFileContent(file)
-      .then((content: string) => {
-        this.code = content;
-      })
-      .catch((error) => console.log(error));
-  }
-
-  private readFileContent(file): Promise<any> {
-    const reader = new FileReader();
-    return new Promise((resolve, reject) => {
-      reader.onload = (event) => resolve(event.target.result);
-      reader.onerror = (error) => reject(error);
-      reader.readAsText(file);
-    });
-  }
-
-  submitCode(): Subscription {
-    this.loading = true;
-    return this.service.submitCode(this.code, this.user).subscribe(
-      (data) => {
-        console.log(data);
-        this.code = data?.formattedCode;
-        this.user.userId = data?.userId;
-        this.interaction.userId = data?.userId;
-        this.mapQuestionsToModel(data?.questions);
-        this.loading = false;
-      },
-      (error) => {
-        this.handleError(error);
-        this.loading = false;
-      }
-    );
+  updateValues(event): void {
+    this.phase = event.phase;
+    this.user = event.user;
+    this.code = event.code;
+    this.loading = event.loading;
+    this.interaction = event.interaction;
   }
 
   submitAnswers(): Subscription {
@@ -161,19 +116,6 @@ export class AppComponent implements OnInit {
     } else if (error.status === 500) {
       this.toastr.error(
         'O servidor não está disponível neste momento ou houve um erro a processar o teu pedido. Por favor tenta mais tarde.'
-      );
-    }
-  }
-
-  private mapQuestionsToModel(questions: Question[]): void {
-    if (questions?.length > 0) {
-      questions.forEach((q) =>
-        this.interaction.qas.push(new QuestionAnswersMapping(q))
-      );
-      this.phase = 2;
-    } else {
-      this.toastr.error(
-        'Não foram geradas questões para o teu código. Adiciona pelo menos uma função à tua submissão.'
       );
     }
   }
@@ -222,7 +164,7 @@ export class AppComponent implements OnInit {
     this.phase = 1;
     this.allAnswersCorrect = true;
     this.code = this.defaultCode;
-    this.interaction = new Interaction([]);
+    this.interaction = null;
   }
 
   omitSpecialChars(event): boolean {

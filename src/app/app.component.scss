@@ -1,21 +1,6 @@
 .example-full-width {
     width: 100%;
-  }
-
-.code-submission-form {
-    width: 100%;
 }
-
-h1 {
-  font-size: 30px;
-  font-weight: 500;
-}
-
-.tagline {
-  font-size: 16px;
-}
-
-.material-icons { font-size: 18px }
 
 .container {
     min-height: 100vh; /* will cover the 100% of viewport */
@@ -34,17 +19,6 @@ footer {
     left: 0;
     width: 100%;
     text-align: center;
-}
-
-input:not(#upload-input){
-  border-radius: 10px;
-  border: 1px solid rgba(136, 136, 136, .3);
-  -webkit-background-clip: padding-box; /* for Safari */
-  background-clip: padding-box;
-}
-
-input#upload-input {
-  border: 1px solid rgba(136, 136, 136, .3);
 }
 
 textarea {

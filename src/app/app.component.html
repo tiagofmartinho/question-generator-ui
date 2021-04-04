@@ -1,65 +1,18 @@
 <div class="container">
   <div class="ml-4">
-  <div class="mt-4">
-    <img src="../assets/iscte_logo.jpg" width="320" height="100" />
-  </div>
-
-  <header>
-    <h1>Programming Questions' Generator</h1>
-    <p class="tagline">Gera questões sobre o teu próprio código! <span class="material-icons">quiz</span></p>
-  </header>
-  <br />
-  <div class="col text-center" *ngIf="phase === 0">
+    <app-header></app-header>
     <br />
-    <button mat-raised-button color="primary" (click)="login()">
-      ENTRAR COM O GOOGLE
-    </button>
-    <br />
-    <br />
-    <i style="font-size: 12px"
-      >Utiliza o teu email do ISCTE se possível.<br />
-      Apenas o teu email e nome são utilizados para fins estatísticos. Estes
-      dados não serão divulgados sem a tua permissão.</i
-    >
-  </div>
+    <app-login *ngIf="phase === 0" (newUserEvent)="user = $event" (newPhaseEvent)="phase = $event"></app-login>
 
   <div class="row">
-    <div class="col-6">
-      <form class="code-submission-form" *ngIf="phase !== 0">
-        <div *ngIf="phase === 1">
-          <p>Olá {{ user.firstName }}!</p>
-          <label for="editor"
-          >Copia e cola o teu código ou escolhe um ficheiro .java do teu sistema. Garante que não tem erros!</label
-          >
-        </div>
-        <ngx-codemirror
-          id="editor"
-          required
-          [disabled]="phase !== 1"
-          [(ngModel)]="code"
-          name="code"
-          [options]="{
-            lineNumbers: true,
-            theme: 'neat',
-            mode: 'text/x-java'
-          }"
-        ></ngx-codemirror>
-        <br />
-          <div *ngIf="phase === 1">
-            <label for="upload-input" class="btn" style="border: 1px solid; margin-bottom: 0">Escolher ficheiro...</label>
-            &nbsp;&nbsp;
-            <button
-              mat-raised-button
-              color="primary"
-              [disabled]="code == null || code === ''"
-              *ngIf="phase === 1 && !loading"
-              (click)="submitCode()"
-            >
-              SUBMETER CÓDIGO
-            </button>
-            <input type="file" accept=".java" (change)="getFile($event)" style="visibility:hidden;" id="upload-input"/>
-          </div>
-      </form>
+    <div class="col-6" *ngIf="phase !== 0">
+      <app-code-submission
+        [phase]="phase"
+        [user]="user"
+        [code]="code"
+        [loading]="loading"
+        [interaction]="interaction"
+        (codeSubmissionEvent)="updateValues($event)"></app-code-submission>
     </div>
     <div class="col-6">
       <form
