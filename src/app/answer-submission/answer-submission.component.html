@@ -8,14 +8,14 @@
       trackBy: trackByIndex
     "
   >
-    <div
+    <div class="mt-3"
       *ngIf="
         qa.question.returnType != 'BOOLEAN' &&
         qa.question.returnType != 'COLLECTION'
       "
     >
       <label>
-        {{ index + 1 }}. {{ qa.question.question }}
+        <b>{{ index + 1 }}.</b> {{ qa.question.question }}
         <fa-icon
           *ngIf="isAnswerCorrect(qa)"
           [icon]="faCheck"
@@ -56,9 +56,9 @@
       </i>
     </div>
 
-    <div *ngIf="qa.question.returnType == 'BOOLEAN'">
+    <div class="mt-3" *ngIf="qa.question.returnType == 'BOOLEAN'">
       <label id="radio-label">
-        {{ index + 1 }}. {{ qa.question.question }}
+        <b>{{ index + 1 }}.</b> {{ qa.question.question }}
       </label>
       <br/>
       <mat-radio-group
@@ -109,10 +109,10 @@
 
     <div
       *ngIf="qa.question.returnType == 'COLLECTION'"
-      class="full-width"
+      class="full-width mt-3"
     >
       <label>
-        {{ index + 1 }}. {{ qa.question.question }}
+        <b>{{ index + 1 }}.</b> {{ qa.question.question }}
         <fa-icon
           *ngIf="isAnswerCorrect(qa)"
           [icon]="faCheck"
