@@ -16,7 +16,6 @@ export class AppComponent implements OnInit {
   @ViewChild('codeEditor', { static: false }) codeEditor: CodemirrorComponent;
   interaction: Interaction = { qas: [] };
   phase = 0;
-  loading = false;
   defaultCode = 'public class Main {}';
   code = this.defaultCode;
   user: User;
@@ -34,11 +33,15 @@ export class AppComponent implements OnInit {
     );
   }
 
+  loginEvent(event): void {
+    this.user = event.user;
+    this.phase = event.phase;
+  }
+
   codeSubmissionUpdate(event): void {
     this.phase = event.phase;
     this.user = event.user;
     this.code = event.code;
-    this.loading = event.loading;
     this.interaction = event.interaction;
   }
 
@@ -51,7 +54,7 @@ export class AppComponent implements OnInit {
     }
   }
 
-  cleanup(event): void {
+  cleanup(): void {
     this.code = this.defaultCode;
     this.interaction = null;
     this.phase = 1;

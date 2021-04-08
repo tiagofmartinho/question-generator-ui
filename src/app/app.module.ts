@@ -5,7 +5,6 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MatButtonModule } from '@angular/material/button';
 import { MatInputModule } from '@angular/material/input';
 import { MatListModule } from '@angular/material/list';
-import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatRadioModule } from '@angular/material/radio';
 import { HttpClientModule } from '@angular/common/http';
 import { FormsModule } from '@angular/forms';
@@ -22,6 +21,7 @@ import { HeaderComponent } from './header/header.component';
 import { LoginComponent } from './login/login.component';
 import { CodeSubmissionComponent } from './code-submission/code-submission.component';
 import { AnswerSubmissionComponent } from './answer-submission/answer-submission.component';
+import {NgxSpinnerModule} from 'ngx-spinner';
 
 @NgModule({
   declarations: [
@@ -40,11 +40,11 @@ import { AnswerSubmissionComponent } from './answer-submission/answer-submission
     MatInputModule,
     MatListModule,
     MatRadioModule,
-    MatProgressSpinnerModule,
     ToastrModule.forRoot(),
     SocialLoginModule,
     CodemirrorModule,
     FontAwesomeModule,
+    NgxSpinnerModule
   ],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
   providers: [

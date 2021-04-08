@@ -7,6 +7,7 @@ import {HttpErrorResponse} from '@angular/common/http';
 import {ToastrService} from 'ngx-toastr';
 import {faCheck, faTimes} from '@fortawesome/free-solid-svg-icons';
 import * as _ from 'lodash';
+import {NgxSpinnerService} from 'ngx-spinner';
 
 @Component({
   selector: 'app-answer-submission',
@@ -18,13 +19,11 @@ export class AnswerSubmissionComponent implements OnInit {
   faCheck = faCheck;
   allAnswersCorrect = true;
   answerTemplate = 'A resposta correta para esta questão é:';
-
-  @Input() loading: boolean;
   @Input() phase: number;
   @Input() interaction: Interaction;
   @Output() cleanupEvent = new EventEmitter<void>();
 
-  constructor(private service: AppService, private toastr: ToastrService) {
+  constructor(private service: AppService, private toastr: ToastrService, private spinner: NgxSpinnerService) {
   }
 
   private static isCollection(qa: QuestionAnswersMapping): boolean {
@@ -64,7 +63,7 @@ export class AnswerSubmissionComponent implements OnInit {
   }
 
   submitAnswers(): Subscription {
-    this.loading = true;
+    this.spinner.show();
     AnswerSubmissionComponent.convertCollectionStringToProperFormat(this.interaction.qas);
     return this.service
       .submitAnswers(this.interaction.userId, this.interaction.qas)
@@ -74,11 +73,11 @@ export class AnswerSubmissionComponent implements OnInit {
           this.mapCorrectAnswersToInteractionModel(data);
           this.showResultsToast();
           this.phase = 3;
-          this.loading = false;
+          this.spinner.hide();
         },
         (error) => {
           this.handleError(error);
-          this.loading = false;
+          this.spinner.hide();
         }
       );
   }

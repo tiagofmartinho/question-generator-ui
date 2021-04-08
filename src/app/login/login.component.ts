@@ -8,8 +8,7 @@ import { User } from '../model/user.model';
   styleUrls: ['./login.component.scss'],
 })
 export class LoginComponent implements OnInit {
-  @Output() newUserEvent = new EventEmitter<User>();
-  @Output() newPhaseEvent = new EventEmitter<number>();
+  @Output() loginEvent = new EventEmitter<{user: User, phase: number}>();
 
   constructor(private authService: SocialAuthService) {}
 
@@ -23,8 +22,7 @@ export class LoginComponent implements OnInit {
         email: data.email,
       };
       console.log(user);
-      this.newUserEvent.emit(user);
-      this.newPhaseEvent.emit(1);
+      this.loginEvent.emit({ user, phase: 1});
     });
   }
 }

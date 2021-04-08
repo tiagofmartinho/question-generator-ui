@@ -1,6 +1,6 @@
 {
   "name": "questionengine-ui",
-  "version": "0.0.0",
+  "version": "1.0",
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
@@ -30,6 +30,7 @@
     "codemirror": "^5.59.3",
     "firebase": "^7.0 || ^8.0",
     "lodash": "^4.17.21",
+    "ngx-spinner": "^11.0.1",
     "ngx-toastr": "^13.2.0",
     "prettier": "^2.2.1",
     "rxjs": "~6.6.0",

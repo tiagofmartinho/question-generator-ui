@@ -24,18 +24,19 @@
       for="upload-input"
       class="btn"
       style="border: 1px solid; margin-bottom: 0"
-      >Escolher ficheiro...</label
-    >
-    &nbsp;&nbsp;
-    <button
-      mat-raised-button
-      color="primary"
-      [disabled]="code == null || code === ''"
-      *ngIf="phase === 1 && !loading"
-      (click)="submitCode()"
-    >
-      SUBMETER CÓDIGO
-    </button>
+      >Escolher ficheiro...
+    </label>
+
+      <button
+        class="ml-2"
+        mat-raised-button
+        color="primary"
+        [disabled]="code == null || code === ''"
+        (click)="submitCode()"
+      >
+        SUBMETER CÓDIGO
+      </button>
+
     <input
       type="file"
       accept=".java"

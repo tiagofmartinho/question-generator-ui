@@ -1,11 +1,12 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { User } from '../model/user.model';
-import { Subscription } from 'rxjs';
 import { AppService } from '../app.service';
 import { Question } from '../model/question.model';
 import { Interaction } from '../model/interaction.model';
 import { ToastrService } from 'ngx-toastr';
 import { HttpErrorResponse } from '@angular/common/http';
+import {NgxSpinner, NgxSpinnerService} from 'ngx-spinner';
+import {Subscription} from 'rxjs';
 
 @Component({
   selector: 'app-code-submission',
@@ -16,22 +17,20 @@ export class CodeSubmissionComponent implements OnInit {
   @Input() phase: number;
   @Input() user: User;
   @Input() code: string;
-  @Input() loading: boolean;
   @Input() interaction: Interaction;
   @Output() codeSubmissionEvent = new EventEmitter<{
     phase: number;
     user: User;
     code: string;
-    loading: boolean;
     interaction: Interaction;
   }>();
 
-  constructor(private service: AppService, private toastr: ToastrService) {}
+  constructor(private service: AppService, private toastr: ToastrService, private spinner: NgxSpinnerService) {}
 
   ngOnInit(): void {}
 
   submitCode(): Subscription {
-    this.loading = true;
+    this.spinner.show();
     return this.service.submitCode(this.code, this.user).subscribe(
       (data) => {
         console.log(data);
@@ -39,18 +38,17 @@ export class CodeSubmissionComponent implements OnInit {
         this.user.userId = data?.userId;
         this.interaction.userId = data?.userId;
         this.mapQuestionsToModel(data?.questions);
-        this.loading = false;
+        this.spinner.hide();
         this.codeSubmissionEvent.emit({
           phase: this.phase,
           user: this.user,
           code: this.code,
-          loading: this.loading,
           interaction: this.interaction,
         });
       },
       (error) => {
         this.handleError(error);
-        this.loading = false;
+        this.spinner.hide();
       }
     );
   }
