@@ -91,11 +91,9 @@ export class CodeSubmissionComponent implements OnInit {
   private handleError(error: HttpErrorResponse): void {
     console.log(error);
     if (error.status === 400) {
-      if (error.error.message === 'invalid_code') {
         this.toastr.error(
-          'O teu código tem erros. Por favor submete código sintaticamente correto.'
+          'O teu código contem erros. Por favor submete código sintaticamente correto.'
         );
-      }
     } else if (error.status === 500) {
       this.toastr.error(
         'O servidor não está disponível neste momento ou houve um erro a processar o teu pedido. Por favor tenta mais tarde.'
