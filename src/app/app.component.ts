@@ -56,7 +56,7 @@ export class AppComponent implements OnInit {
 
   cleanup(): void {
     this.code = this.defaultCode;
-    this.interaction = null;
+    this.interaction = { qas: [] };
     this.phase = 1;
   }
 }

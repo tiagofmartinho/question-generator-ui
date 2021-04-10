@@ -92,7 +92,7 @@ export class CodeSubmissionComponent implements OnInit {
     console.log(error);
     if (error.status === 400) {
         this.toastr.error(
-          'O teu código contem erros. Por favor submete código sintaticamente correto.'
+          'O teu código contém erros. Por favor submete código sintaticamente correto.'
         );
     } else if (error.status === 500) {
       this.toastr.error(
