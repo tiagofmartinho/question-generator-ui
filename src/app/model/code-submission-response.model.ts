@@ -1,6 +1,6 @@
 import { Question } from './question.model';
 
-export class CodeSubmissionResponse {
+export interface CodeSubmissionResponse {
   questions?: Question[];
   formattedCode?: string;
   userId?: number;

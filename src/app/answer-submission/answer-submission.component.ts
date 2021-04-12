@@ -8,6 +8,7 @@ import {ToastrService} from 'ngx-toastr';
 import {faCheck, faTimes} from '@fortawesome/free-solid-svg-icons';
 import * as _ from 'lodash';
 import {NgxSpinnerService} from 'ngx-spinner';
+import {VariableRole} from '../model/variable-role.model';
 
 @Component({
   selector: 'app-answer-submission',
@@ -19,6 +20,11 @@ export class AnswerSubmissionComponent implements OnInit {
   faCheck = faCheck;
   allAnswersCorrect = true;
   answerTemplate = 'A resposta correta para esta questão é:';
+  variableRoles: VariableRole[] = [
+    {label: 'Decrementador', value: 'DECREMENTOR'},
+    {label: 'Incrementador', value: 'INCREMENTOR'},
+    {label: 'Acumulador', value: 'ACCUMULATOR'}
+  ];
   @Input() phase: number;
   @Input() interaction: Interaction;
   @Output() cleanupEvent = new EventEmitter<void>();
@@ -26,7 +32,7 @@ export class AnswerSubmissionComponent implements OnInit {
   constructor(private service: AppService, private toastr: ToastrService, private spinner: NgxSpinnerService) {
   }
 
-  private static isCollection(qa: QuestionAnswersMapping): boolean {
+  private static isCollectionEqual(qa: QuestionAnswersMapping): boolean {
     return (
       qa.question.returnType === 'COLLECTION' &&
       _.isEqual(
@@ -35,6 +41,7 @@ export class AnswerSubmissionComponent implements OnInit {
       )
     );
   }
+
 
   private static convertCollectionStringToProperFormat(list: QuestionAnswersMapping[]): void {
     list.forEach((qa) => {
@@ -82,7 +89,7 @@ export class AnswerSubmissionComponent implements OnInit {
       );
   }
 
-  private mapCorrectAnswersToInteractionModel(data: Map<number, string>): void {
+  mapCorrectAnswersToInteractionModel(data: Map<number, string>): void {
     for (const [questionId, correctAnswer] of Object.entries(data)) {
       this.interaction.qas.forEach((qa) => {
         if (qa.question.questionId.toString() === questionId) {
@@ -107,10 +114,10 @@ export class AnswerSubmissionComponent implements OnInit {
     }
   }
 
-  public isAnswerCorrect(qa: QuestionAnswersMapping): boolean {
+  isAnswerCorrect(qa: QuestionAnswersMapping): boolean {
     return (
       (qa.correctAnswer != null && qa.correctAnswer == qa.userAnswer) ||
-      (qa.correctAnswer != null && AnswerSubmissionComponent.isCollection(qa))
+      (qa.correctAnswer != null && AnswerSubmissionComponent.isCollectionEqual(qa))
     );
   }
 
@@ -141,12 +148,19 @@ export class AnswerSubmissionComponent implements OnInit {
     }
   }
 
-  public isAnswerIncorrect(qa: QuestionAnswersMapping): boolean {
+  isAnswerIncorrect(qa: QuestionAnswersMapping): boolean {
     return (
       qa.correctAnswer != null &&
       qa.correctAnswer != qa.userAnswer &&
-      !AnswerSubmissionComponent.isCollection(qa)
+      !AnswerSubmissionComponent.isCollectionEqual(qa)
     );
+  }
+
+  getCorrectAnswer(qa: QuestionAnswersMapping): string {
+    if (qa.question.returnType == 'VARIABLEROLE') {
+      return this.variableRoles.find(role => role.value == qa.correctAnswer).label;
+    }
+    return qa.correctAnswer;
   }
 
   cleanup(): void {

@@ -22,6 +22,7 @@ import { LoginComponent } from './login/login.component';
 import { CodeSubmissionComponent } from './code-submission/code-submission.component';
 import { AnswerSubmissionComponent } from './answer-submission/answer-submission.component';
 import {NgxSpinnerModule} from 'ngx-spinner';
+import {NgSelectModule} from '@ng-select/ng-select';
 
 @NgModule({
   declarations: [
@@ -44,7 +45,8 @@ import {NgxSpinnerModule} from 'ngx-spinner';
     SocialLoginModule,
     CodemirrorModule,
     FontAwesomeModule,
-    NgxSpinnerModule
+    NgxSpinnerModule,
+    NgSelectModule
   ],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
   providers: [
