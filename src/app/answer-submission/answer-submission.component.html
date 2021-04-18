@@ -12,12 +12,12 @@
       <label>
         <b>{{ index + 1 }}. </b> <span [innerHTML]="qa.question.question"></span>
         <fa-icon
-          *ngIf="isAnswerCorrect(qa)"
+          *ngIf="!isAnswerIncorrect(qa) && phase === 3"
           [icon]="faCheck"
           style="color: green"
         ></fa-icon>
         <fa-icon
-          *ngIf="isAnswerIncorrect(qa)"
+          *ngIf="isAnswerIncorrect(qa) && phase === 3"
           [icon]="faTimes"
           style="color: red"
         ></fa-icon>
@@ -51,7 +51,7 @@
                    [(ngModel)]="qa.userAnswer" >
         </ng-select>
         <textarea
-          *ngIf="qa.question.returnType == 'COLLECTION'"
+          *ngIf="qa.question.returnType == 'SET' || qa.question.returnType == 'LIST'"
           class="mt-2"
           rows="3"
           cols="40"
@@ -62,7 +62,6 @@
           required
           [(ngModel)]="qa.userAnswer"
         ></textarea>
-
       </label>
       <i class="text-muted" *ngIf="isAnswerIncorrect(qa)">
         <br/>
@@ -86,12 +85,12 @@
         <mat-radio-button value="true"
         >Verdadeiro
           <fa-icon
-            *ngIf="isAnswerCorrect(qa) && qa.userAnswer == 'true'"
+            *ngIf="!isAnswerIncorrect(qa) && qa.userAnswer == 'true' && phase === 3"
             [icon]="faCheck"
             style="color: green"
           ></fa-icon>
           <fa-icon
-            *ngIf="isAnswerIncorrect(qa) && qa.userAnswer == 'true'"
+            *ngIf="isAnswerIncorrect(qa) && qa.userAnswer == 'true' && phase === 3"
             [icon]="faTimes"
             style="color: red"
           ></fa-icon>
@@ -100,12 +99,12 @@
         <mat-radio-button value="false"
         >Falso
           <fa-icon
-            *ngIf="isAnswerCorrect(qa) && qa.userAnswer == 'false'"
+            *ngIf="!isAnswerIncorrect(qa) && qa.userAnswer == 'false' && phase === 3"
             [icon]="faCheck"
             style="color: green"
           ></fa-icon>
           <fa-icon
-            *ngIf="isAnswerIncorrect(qa) && qa.userAnswer == 'false'"
+            *ngIf="isAnswerIncorrect(qa) && qa.userAnswer == 'false' && phase === 3"
             [icon]="faTimes"
             style="color: red"
           ></fa-icon>

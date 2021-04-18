@@ -9,6 +9,7 @@ import {faCheck, faTimes} from '@fortawesome/free-solid-svg-icons';
 import * as _ from 'lodash';
 import {NgxSpinnerService} from 'ngx-spinner';
 import {VariableRole} from '../model/variable-role.model';
+import {Question} from '../model/question.model';
 
 @Component({
   selector: 'app-answer-submission',
@@ -16,6 +17,9 @@ import {VariableRole} from '../model/variable-role.model';
   styleUrls: ['./answer-submission.component.scss'],
 })
 export class AnswerSubmissionComponent implements OnInit {
+
+  constructor(private service: AppService, private toastr: ToastrService, private spinner: NgxSpinnerService) {
+  }
   faTimes = faTimes;
   faCheck = faCheck;
   allAnswersCorrect = true;
@@ -29,36 +33,8 @@ export class AnswerSubmissionComponent implements OnInit {
   @Input() interaction: Interaction;
   @Output() cleanupEvent = new EventEmitter<void>();
 
-  constructor(private service: AppService, private toastr: ToastrService, private spinner: NgxSpinnerService) {
-  }
-
-  private static isCollectionEqual(qa: QuestionAnswersMapping): boolean {
-    return (
-      qa.question.returnType === 'COLLECTION' &&
-      _.isEqual(
-        AnswerSubmissionComponent.convertCollectionStringFormatToSet(qa.correctAnswer),
-        AnswerSubmissionComponent.convertCollectionStringFormatToSet(qa.userAnswer)
-      )
-    );
-  }
-
-
-  private static convertCollectionStringToProperFormat(list: QuestionAnswersMapping[]): void {
-    list.forEach((qa) => {
-      if (qa?.question?.returnType == 'COLLECTION') {
-        qa.userAnswer =
-          '[' +
-          qa?.userAnswer
-            ?.trim()
-            .split(/[\r\n]+/)
-            .toString() +
-          ']';
-      }
-    });
-  }
-
-  private static convertCollectionStringFormatToSet(collectionString: string): Set<string> {
-    const arr = collectionString.slice(1, -1).replace(/\s+/g, '').split(',');
+  private static convertLineSeparatedStringToSet(lineSeparatedString: string): Set<string> {
+    const arr = lineSeparatedString.split('\n');
     return new Set(arr);
   }
 
@@ -71,7 +47,6 @@ export class AnswerSubmissionComponent implements OnInit {
 
   submitAnswers(): Subscription {
     this.spinner.show();
-    AnswerSubmissionComponent.convertCollectionStringToProperFormat(this.interaction.qas);
     return this.service
       .submitAnswers(this.interaction.userId, this.interaction.qas)
       .subscribe(
@@ -89,11 +64,16 @@ export class AnswerSubmissionComponent implements OnInit {
       );
   }
 
+  getLineSeparatedStringFromSetString(correctAnswer: string): string {
+    return correctAnswer.slice(1, -1).split(', ').join('\n');
+  }
+
   mapCorrectAnswersToInteractionModel(data: Map<number, string>): void {
     for (const [questionId, correctAnswer] of Object.entries(data)) {
       this.interaction.qas.forEach((qa) => {
         if (qa.question.questionId.toString() === questionId) {
-          qa.correctAnswer = correctAnswer;
+          if (qa.question.returnType === 'SET' || qa.question.returnType === 'LIST') { qa.correctAnswer = this.getLineSeparatedStringFromSetString(correctAnswer); }
+          else { qa.correctAnswer = correctAnswer; }
           this.checkAnswer(qa);
         }
       });
@@ -101,9 +81,7 @@ export class AnswerSubmissionComponent implements OnInit {
   }
 
   private checkAnswer(qa: QuestionAnswersMapping): void {
-    if (this.isAnswerIncorrect(qa)) {
-      this.allAnswersCorrect = false;
-    }
+    if (this.isAnswerIncorrect(qa)) { this.allAnswersCorrect = false; }
   }
 
   private showResultsToast(): void {
@@ -112,13 +90,6 @@ export class AnswerSubmissionComponent implements OnInit {
     } else {
       this.toastr.error('Respondeste incorretamente a pelo menos uma questão.');
     }
-  }
-
-  isAnswerCorrect(qa: QuestionAnswersMapping): boolean {
-    return (
-      (qa.correctAnswer != null && qa.correctAnswer == qa.userAnswer) ||
-      (qa.correctAnswer != null && AnswerSubmissionComponent.isCollectionEqual(qa))
-    );
   }
 
   omitSpecialChars(event): boolean {
@@ -149,11 +120,16 @@ export class AnswerSubmissionComponent implements OnInit {
   }
 
   isAnswerIncorrect(qa: QuestionAnswersMapping): boolean {
-    return (
-      qa.correctAnswer != null &&
-      qa.correctAnswer != qa.userAnswer &&
-      !AnswerSubmissionComponent.isCollectionEqual(qa)
-    );
+    if (qa.question.returnType == 'SET') {
+      if (qa.correctAnswer != null &&
+      _.isEqual(
+        AnswerSubmissionComponent.convertLineSeparatedStringToSet(qa.correctAnswer),
+        AnswerSubmissionComponent.convertLineSeparatedStringToSet(qa.userAnswer)
+      )) {
+        return false;
+      }
+    }
+    return qa.correctAnswer != null && qa.correctAnswer != qa.userAnswer;
   }
 
   getCorrectAnswer(qa: QuestionAnswersMapping): string {
