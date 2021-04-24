@@ -11,7 +11,7 @@
       <div class="col-12 mt-2" id="answerBlock">
         <div class="mt-3" *ngIf="qa.question.returnType != 'BOOLEAN'">
           <label>
-            <b>{{ index + 1 }}. </b> <span [innerHTML]="qa.question.question"></span>
+            <b>{{ index + 1 }}. </b> <span [innerHTML]="qa.question.question"></span>&nbsp;
             <fa-icon
               *ngIf="!isAnswerIncorrect(qa) && phase === 3"
               [icon]="faCheck"
