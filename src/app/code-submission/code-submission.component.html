@@ -1,7 +1,7 @@
 <form class="code-submission-form">
-  <div *ngIf="phase === 1">
+  <div>
     <p>Olá {{ user.firstName }}!</p>
-    <label for="editor"
+    <label [hidden]="phase !== 1" for="editor"
       >Copia e cola o teu código ou escolhe um ficheiro .java do teu sistema.
       Garante que não tem erros!</label
     >

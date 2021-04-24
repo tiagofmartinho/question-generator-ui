@@ -9,14 +9,9 @@ textarea {
   background-clip: padding-box;
 }
 
-input[type=text] {
+#answerBlock, input[type=number], input[type=text] {
   border-radius: 6px;
-  border: 1px solid rgba(136, 136, 136, 0.3);
-}
-
-input[type=number] {
-  border-radius: 6px;
-  border: 1px solid rgba(136, 136, 136, 0.3);
+  border: 1px solid rgba(136, 136, 136, 0.35);
 }
 
 .full-width {

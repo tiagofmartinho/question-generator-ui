@@ -4,4 +4,5 @@ export interface QuestionAnswersMapping {
   question?: Question;
   userAnswer?: string;
   correctAnswer?: string;
+  confidenceLevel?: number;
 }

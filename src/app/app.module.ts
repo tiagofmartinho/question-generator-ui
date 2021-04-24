@@ -23,6 +23,7 @@ import { CodeSubmissionComponent } from './code-submission/code-submission.compo
 import { AnswerSubmissionComponent } from './answer-submission/answer-submission.component';
 import {NgxSpinnerModule} from 'ngx-spinner';
 import {NgSelectModule} from '@ng-select/ng-select';
+import {MatSliderModule} from '@angular/material/slider';
 
 @NgModule({
   declarations: [
@@ -46,7 +47,8 @@ import {NgSelectModule} from '@ng-select/ng-select';
     CodemirrorModule,
     FontAwesomeModule,
     NgxSpinnerModule,
-    NgSelectModule
+    NgSelectModule,
+    MatSliderModule
   ],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
   providers: [
