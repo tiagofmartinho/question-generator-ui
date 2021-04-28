@@ -10,13 +10,14 @@ import * as _ from 'lodash';
 import {NgxSpinnerService} from 'ngx-spinner';
 import {VariableRole} from '../model/variable-role.model';
 import {Question} from '../model/question.model';
+import set = Reflect.set;
 
 @Component({
   selector: 'app-answer-submission',
   templateUrl: './answer-submission.component.html',
   styleUrls: ['./answer-submission.component.scss'],
 })
-export class AnswerSubmissionComponent implements OnInit {
+export class AnswerSubmissionComponent {
 
   constructor(private service: AppService, private toastr: ToastrService, private spinner: NgxSpinnerService) {
   }
@@ -34,11 +35,19 @@ export class AnswerSubmissionComponent implements OnInit {
   @Output() cleanupEvent = new EventEmitter<void>();
 
   private static convertLineSeparatedStringToSet(lineSeparatedString: string): Set<string> {
-    const arr = lineSeparatedString.split('\n');
-    return new Set(arr);
+    return new Set(AnswerSubmissionComponent.convertLineSeparatedStringToArray(lineSeparatedString));
   }
 
-  ngOnInit(): void {
+  private static convertSetStringToSet(setString: string): Set<string> {
+    return new Set(AnswerSubmissionComponent.convertCollectionStringToArray(setString));
+  }
+
+  private static convertCollectionStringToArray(listString: string): string[] {
+    return listString.slice(1, -1).split(', ');
+  }
+
+  private static convertLineSeparatedStringToArray(lineSeparatedString: string): string[] {
+    return lineSeparatedString.split('\n');
   }
 
   trackByIndex(index, item): TrackByFunction<QuestionAnswersMapping> {
@@ -64,16 +73,16 @@ export class AnswerSubmissionComponent implements OnInit {
       );
   }
 
-  getLineSeparatedStringFromSetString(correctAnswer: string): string {
-    return correctAnswer.slice(1, -1).split(', ').join('\n');
+  removeBracketsFrom(correctAnswer: string): string {
+    return correctAnswer.slice(1, -1);
   }
+
 
   mapCorrectAnswersToInteractionModel(data: Map<number, string>): void {
     for (const [questionId, correctAnswer] of Object.entries(data)) {
       this.interaction.qas.forEach((qa) => {
         if (qa.question.questionId.toString() === questionId) {
-          if (qa.question.returnType === 'SET' || qa.question.returnType === 'LIST') { qa.correctAnswer = this.getLineSeparatedStringFromSetString(correctAnswer); }
-          else { qa.correctAnswer = correctAnswer; }
+          qa.correctAnswer = correctAnswer;
           this.checkAnswer(qa);
         }
       });
@@ -123,9 +132,17 @@ export class AnswerSubmissionComponent implements OnInit {
     if (qa.question.returnType == 'SET') {
       if (qa.correctAnswer != null &&
       _.isEqual(
-        AnswerSubmissionComponent.convertLineSeparatedStringToSet(qa.correctAnswer),
+        AnswerSubmissionComponent.convertSetStringToSet(qa.correctAnswer),
         AnswerSubmissionComponent.convertLineSeparatedStringToSet(qa.userAnswer)
       )) {
+        return false;
+      }
+    }
+    if (qa.question.returnType == 'LIST') {
+      if (qa.correctAnswer != null &&
+        _.isEqual(
+          AnswerSubmissionComponent.convertCollectionStringToArray(qa.correctAnswer),
+          AnswerSubmissionComponent.convertLineSeparatedStringToArray(qa.userAnswer))) {
         return false;
       }
     }
@@ -135,6 +152,9 @@ export class AnswerSubmissionComponent implements OnInit {
   getCorrectAnswer(qa: QuestionAnswersMapping): string {
     if (qa.question.returnType == 'VARIABLEROLE') {
       return this.variableRoles.find(role => role.value == qa.correctAnswer).label;
+    }
+    if (qa.question.returnType === 'SET' || qa.question.returnType === 'LIST') {
+      return this.removeBracketsFrom(qa.correctAnswer);
     }
     return qa.correctAnswer;
   }
