@@ -47,7 +47,7 @@ export class AnswerSubmissionComponent {
   }
 
   private static convertLineSeparatedStringToArray(lineSeparatedString: string): string[] {
-    return lineSeparatedString.split('\n');
+    return lineSeparatedString.trim().split('\n');
   }
 
   trackByIndex(index, item): TrackByFunction<QuestionAnswersMapping> {
