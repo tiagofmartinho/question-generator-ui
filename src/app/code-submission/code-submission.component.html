@@ -6,26 +6,27 @@
       Garante que não tem erros!</label
     >
   </div>
-  <ngx-codemirror
-    id="editor"
-    required
-    [disabled]="phase !== 1"
-    [(ngModel)]="code"
-    name="code"
-    [options]="{
+  <div class="editor-wrapper">
+      <ngx-codemirror
+        id="editor"
+        required
+        [disabled]="phase !== 1"
+        [(ngModel)]="code"
+        name="code"
+        [options]="{
       lineNumbers: true,
       theme: 'neat',
       mode: 'text/x-java'
     }"
-  ></ngx-codemirror>
-  <br />
-  <div *ngIf="phase === 1">
-    <label
-      for="upload-input"
-      class="btn"
-      style="border: 1px solid; margin-bottom: 0"
+      ></ngx-codemirror>
+    <br>
+    <div *ngIf="phase === 1">
+      <label
+        for="upload-input"
+        class="btn"
+        style="border: 1px solid; margin-bottom: 0"
       >Escolher ficheiro...
-    </label>
+      </label>
 
       <button
         class="ml-2"
@@ -37,12 +38,14 @@
         SUBMETER CÓDIGO
       </button>
 
-    <input
-      type="file"
-      accept=".java"
-      (change)="getFile($event)"
-      style="visibility: hidden"
-      id="upload-input"
-    />
+      <input
+        type="file"
+        accept=".java"
+        (change)="getFile($event)"
+        style="visibility: hidden"
+        id="upload-input"
+      />
+    </div>
   </div>
+  <br />
 </form>
