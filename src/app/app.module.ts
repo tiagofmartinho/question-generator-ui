@@ -6,7 +6,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatInputModule } from '@angular/material/input';
 import { MatListModule } from '@angular/material/list';
 import { MatRadioModule } from '@angular/material/radio';
-import { HttpClientModule } from '@angular/common/http';
+import { HttpClient, HttpClientModule } from '@angular/common/http';
 import { FormsModule } from '@angular/forms';
 import { ToastrModule } from 'ngx-toastr';
 import { AppService } from './app.service';
@@ -24,6 +24,12 @@ import { AnswerSubmissionComponent } from './answer-submission/answer-submission
 import {NgxSpinnerModule} from 'ngx-spinner';
 import {NgSelectModule} from '@ng-select/ng-select';
 import {MatSliderModule} from '@angular/material/slider';
+import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
+import { TranslateHttpLoader } from '@ngx-translate/http-loader';
+
+export function HttpLoaderFactory(http: HttpClient) {
+  return new TranslateHttpLoader(http);
+}
 
 @NgModule({
   declarations: [
@@ -48,7 +54,15 @@ import {MatSliderModule} from '@angular/material/slider';
     FontAwesomeModule,
     NgxSpinnerModule,
     NgSelectModule,
-    MatSliderModule
+    MatSliderModule,
+    TranslateModule.forRoot({
+      defaultLanguage: 'en',
+      loader: {
+        provide: TranslateLoader,
+        useFactory: HttpLoaderFactory,
+        deps: [HttpClient]
+      }
+    })
   ],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
   providers: [

@@ -1,4 +1,4 @@
-import {Component, EventEmitter, Input, OnInit, Output, TrackByFunction} from '@angular/core';
+import {Component, EventEmitter, Input, Output, TrackByFunction} from '@angular/core';
 import {Subscription} from 'rxjs';
 import {QuestionAnswersMapping} from '../model/question-answers-mapping.model';
 import {Interaction} from '../model/interaction.model';
@@ -9,8 +9,7 @@ import {faCheck, faTimes} from '@fortawesome/free-solid-svg-icons';
 import * as _ from 'lodash';
 import {NgxSpinnerService} from 'ngx-spinner';
 import {VariableRole} from '../model/variable-role.model';
-import {Question} from '../model/question.model';
-import set = Reflect.set;
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-answer-submission',
@@ -19,16 +18,17 @@ import set = Reflect.set;
 })
 export class AnswerSubmissionComponent {
 
-  constructor(private service: AppService, private toastr: ToastrService, private spinner: NgxSpinnerService) {
+  constructor(private service: AppService, private toastr: ToastrService, private spinner: NgxSpinnerService, private translate: TranslateService) {
   }
   faTimes = faTimes;
+  oneValuePerLinePlaceholder = this.translate.instant('answerSubmission.oneValuePerLine')
   faCheck = faCheck;
   allAnswersCorrect = true;
-  answerTemplate = 'A resposta correta para esta questão é:';
+  answerTemplate = this.translate.instant('answerSubmission.correctAnswerIs')
   variableRoles: VariableRole[] = [
-    {label: 'Decrementador', value: 'DECREMENTOR'},
-    {label: 'Incrementador', value: 'INCREMENTOR'},
-    {label: 'Acumulador', value: 'ACCUMULATOR'}
+    {label: this.translate.instant('answerSubmission.decrementor'), value: 'DECREMENTOR'},
+    {label: this.translate.instant('answerSubmission.incrementor'), value: 'INCREMENTOR'},
+    {label: this.translate.instant('answerSubmission.accumulator'), value: 'ACCUMULATOR'}
   ];
   @Input() phase: number;
   @Input() interaction: Interaction;
@@ -95,9 +95,9 @@ export class AnswerSubmissionComponent {
 
   private showResultsToast(): void {
     if (this.allAnswersCorrect) {
-      this.toastr.success('Respondeste corretamente a todas as questões!');
+      this.toastr.success(this.translate.instant('answerSubmission.allAnswersCorrect'));
     } else {
-      this.toastr.error('Respondeste incorretamente a pelo menos uma questão.');
+      this.toastr.error(this.translate.instant('answerSubmission.submissionIncorrect'));
     }
   }
 
@@ -119,11 +119,11 @@ export class AnswerSubmissionComponent {
     console.log(error);
     if (error.status === 400) {
       this.toastr.error(
-        'Submissão inválida. Por favor preenche todos os campos.'
+        this.translate.instant('answerSubmission.invalidSubmission')
       );
     } else if (error.status === 500) {
       this.toastr.error(
-        'O servidor não está disponível neste momento ou houve um erro a processar o teu pedido. Por favor tenta mais tarde.'
+        this.translate.instant('app.serverUnavailable')
       );
     }
   }

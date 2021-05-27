@@ -1,0 +1,39 @@
+{
+    "app": {
+        "loading": "A carregar...",
+        "serverUnavailable": "O servidor não está disponível neste momento ou houve um erro a processar o teu pedido. Por favor tenta mais tarde."
+    },
+    "login":{
+        "google": "ENTRAR COM O GOOGLE",
+        "notice1": "Utiliza o teu email do ISCTE se possível.",
+        "notice2": "Apenas o teu email e nome são utilizados para fins estatísticos. Estes dados não serão divulgados sem a tua permissão"
+    },
+    "header": {
+        "description": "Gera questões sobre o teu próprio código!"
+    },
+    "codeSubmission": {
+        "hello": "Olá",
+        "instruction": "Copia e cola o teu código ou escolhe um ficheiro .java do teu sistema. Garante que não tem erros!",
+        "pickFile": "Escolher ficheiro...",
+        "submitCode": "SUBMETER CÓDIGO",
+        "noQuestionsGenerated": "Não foram geradas questões para o teu código. Adiciona pelo menos uma função à tua submissão.",
+        "syntaticErrors": "O teu código contém erros. Por favor submete código sintaticamente correto."
+
+    },
+    "answerSubmission": {
+        "instruction": "Responde às seguintes questões sobre o teu código:",
+        "true": "Verdadeiro",
+        "false": "Falso",
+        "confidenceLevel": "Nível de confiança para a resposta dada:",
+        "submitAnswers": "SUBMETER RESPOSTAS",
+        "newSubmission": "NOVA SUBMISSÃO",
+        "correctAnswerIs": "A resposta correta para esta questão é:",
+        "decrementor": "Decrementador",
+        "incrementor": "Incrementador",
+        "accumulator": "Acumulador",
+        "invalidSubmission": "Submissão inválida. Por favor preenche todos os campos.",
+        "allAnswersCorrect": "Respondeste corretamente a todas as questões!",
+        "submissionIncorrect": "Respondeste incorretamente a pelo menos uma questão.",
+        "oneValuePerLine": "Digita 1 valor por linha..."
+    }
+}

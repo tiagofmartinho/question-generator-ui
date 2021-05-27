@@ -7,6 +7,7 @@ import { ToastrService } from 'ngx-toastr';
 import { HttpErrorResponse } from '@angular/common/http';
 import {NgxSpinner, NgxSpinnerService} from 'ngx-spinner';
 import {Subscription} from 'rxjs';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-code-submission',
@@ -25,7 +26,7 @@ export class CodeSubmissionComponent implements OnInit {
     interaction: Interaction;
   }>();
 
-  constructor(private service: AppService, private toastr: ToastrService, private spinner: NgxSpinnerService) {}
+  constructor(private service: AppService, private toastr: ToastrService, private spinner: NgxSpinnerService, private translate: TranslateService) {}
 
   ngOnInit(): void {}
 
@@ -59,7 +60,7 @@ export class CodeSubmissionComponent implements OnInit {
       this.phase = 2;
     } else {
       this.toastr.error(
-        'Não foram geradas questões para o teu código. Adiciona pelo menos uma função à tua submissão.'
+        this.translate.instant('codeSubmission.noQuestionsGenerated')
       );
     }
   }
@@ -92,11 +93,10 @@ export class CodeSubmissionComponent implements OnInit {
     console.log(error);
     if (error.status === 400) {
         this.toastr.error(
-          'O teu código contém erros. Por favor submete código sintaticamente correto.'
+          this.translate.instant('codeSubmission.syntaticErrors')
         );
     } else if (error.status === 500) {
-      this.toastr.error(
-        'O servidor não está disponível neste momento ou houve um erro a processar o teu pedido. Por favor tenta mais tarde.'
+      this.toastr.error(this.translate.instant('app.serverUnavailable')
       );
     }
   }

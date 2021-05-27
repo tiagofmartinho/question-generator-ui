@@ -1,9 +1,8 @@
 <form class="code-submission-form">
   <div>
-    <p>Olá {{ user.firstName }}!</p>
+    <p>{{ "codeSubmission.hello" | translate }} {{ user.firstName }}!</p>
     <label [hidden]="phase !== 1" for="editor"
-      >Copia e cola o teu código ou escolhe um ficheiro .java do teu sistema.
-      Garante que não tem erros!</label
+      >{{ "codeSubmission.instruction" | translate }}</label
     >
   </div>
   <div class="editor-wrapper">
@@ -25,7 +24,7 @@
         for="upload-input"
         class="btn"
         style="border: 1px solid; margin-bottom: 0"
-      >Escolher ficheiro...
+      >{{ "codeSubmission.pickFile" | translate }}
       </label>
 
       <button
@@ -35,7 +34,7 @@
         [disabled]="code == null || code === ''"
         (click)="submitCode()"
       >
-        SUBMETER CÓDIGO
+        {{ "codeSubmission.submitCode" | translate }}
       </button>
 
       <input
