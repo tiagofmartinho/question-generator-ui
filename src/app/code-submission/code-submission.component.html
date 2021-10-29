@@ -1,30 +1,30 @@
 <form class="code-submission-form">
-  <div>
-    <p>{{ "codeSubmission.hello" | translate }} {{ user.firstName }}!</p>
-    <label [hidden]="phase !== 1" for="editor"
-      >{{ "codeSubmission.instruction" | translate }}</label
-    >
+  <div *ngIf="phase === 1">
+    <p>
+      {{ "codeSubmission.instruction" | translate }}
+    </p>
   </div>
   <div class="editor-wrapper">
-      <ngx-codemirror
-        id="editor"
-        required
-        [disabled]="phase !== 1"
-        [(ngModel)]="code"
-        name="code"
-        [options]="{
-      lineNumbers: true,
-      theme: 'neat',
-      mode: 'text/x-java'
-    }"
-      ></ngx-codemirror>
-    <br>
+    <ngx-codemirror
+      id="editor"
+      required
+      [disabled]="phase !== 1"
+      [(ngModel)]="code"
+      name="code"
+      [options]="{
+        lineNumbers: true,
+        theme: 'neat',
+        mode: 'text/x-java'
+      }"
+    ></ngx-codemirror>
+    <br />
     <div *ngIf="phase === 1">
       <label
         for="upload-input"
         class="btn"
         style="border: 1px solid; margin-bottom: 0"
-      >{{ "codeSubmission.pickFile" | translate }}
+        id="upload-label"
+        >{{ "codeSubmission.pickFile" | translate }}
       </label>
 
       <button

@@ -1,0 +1,43 @@
+<div class="col text-center">
+  <p>
+    {{ "codeSubmission.hello" | translate }}
+    {{ "codeSubmission.student" | translate }}!
+  </p>
+  <p>{{ "codeSubmission.studentDataInstruction" | translate }}.</p>
+  <br />
+  <div class="col-10">
+    <label
+      >{{ "codeSubmission.firstName" | translate }}
+      <input
+        type="text"
+        name="firstName"
+        required
+        [(ngModel)]="user.firstName" /></label
+    ><br />
+    <label
+      >{{ "codeSubmission.lastName" | translate }}
+      <input
+        type="text"
+        name="lastName"
+        required
+        [(ngModel)]="user.lastName" /></label
+    ><br />
+    <label
+      >{{ "codeSubmission.studentNumber" | translate }}
+      <input
+        type="number"
+        name="studentNumber"
+        required
+        [(ngModel)]="user.studentNumber"
+    /></label>
+  </div>
+  <br />
+  <button mat-raised-button color="primary" (click)="login()">
+    {{ "login.submit" | translate }}
+  </button>
+  <br />
+  <br />
+  <i style="font-size: 12px">
+    {{ "login.notice3" | translate }}
+  </i>
+</div>

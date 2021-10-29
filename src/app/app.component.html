@@ -1,15 +1,23 @@
-<ngx-spinner bdColor="rgba(0, 0, 0, 0.8)" size="medium" color="#fff" type="ball-clip-rotate" [fullScreen]="true"><p
-  style="color: white">{{ "app.loading" | translate }}</p></ngx-spinner>
+<ngx-spinner
+  bdColor="rgba(0, 0, 0, 0.8)"
+  size="medium"
+  color="#fff"
+  type="ball-clip-rotate"
+  [fullScreen]="true"
+  ><p style="color: white">{{ "app.loading" | translate }}</p></ngx-spinner
+>
+
 <div class="container">
   <div class="ml-4">
     <app-header></app-header>
-    <br/>
-    <app-login
-      *ngIf="phase === 0"
-      (loginEvent)="loginEvent($event)"
-    ></app-login>
+    <br />
 
     <div class="row">
+      <div class="col-12" *ngIf="phase === 0">
+        <app-student-data-submission
+          (loginEvent)="loginEvent($event)"
+        ></app-student-data-submission>
+      </div>
       <div class="col-6" *ngIf="phase !== 0">
         <app-code-submission
           [phase]="phase"
@@ -20,15 +28,18 @@
         ></app-code-submission>
       </div>
 
-      <div class="col-6" *ngIf="(phase === 2 || phase === 3)">
-        <app-answer-submission [phase]="phase" [interaction]="interaction"
-                               (cleanupEvent)="cleanup()"></app-answer-submission>
+      <div class="col-6" *ngIf="phase === 2 || phase === 3">
+        <app-answer-submission
+          [phase]="phase"
+          [interaction]="interaction"
+          (cleanupEvent)="cleanup()"
+        ></app-answer-submission>
       </div>
     </div>
 
-    <br>
-    <br>
-    <br>
+    <br />
+    <br />
+    <br />
     <footer>
       <div class="text-muted text-center">© 2021 Tiago Martinho</div>
     </footer>

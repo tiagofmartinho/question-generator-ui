@@ -21,11 +21,12 @@ import { HeaderComponent } from './header/header.component';
 import { LoginComponent } from './login/login.component';
 import { CodeSubmissionComponent } from './code-submission/code-submission.component';
 import { AnswerSubmissionComponent } from './answer-submission/answer-submission.component';
-import {NgxSpinnerModule} from 'ngx-spinner';
-import {NgSelectModule} from '@ng-select/ng-select';
-import {MatSliderModule} from '@angular/material/slider';
+import { NgxSpinnerModule } from 'ngx-spinner';
+import { NgSelectModule } from '@ng-select/ng-select';
+import { MatSliderModule } from '@angular/material/slider';
 import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
+import { StudentDataSubmissionComponent } from './student-data-submission/student-data-submission.component';
 
 export function HttpLoaderFactory(http: HttpClient) {
   return new TranslateHttpLoader(http);
@@ -38,6 +39,7 @@ export function HttpLoaderFactory(http: HttpClient) {
     LoginComponent,
     CodeSubmissionComponent,
     AnswerSubmissionComponent,
+    StudentDataSubmissionComponent,
   ],
   imports: [
     BrowserModule,
@@ -56,13 +58,13 @@ export function HttpLoaderFactory(http: HttpClient) {
     NgSelectModule,
     MatSliderModule,
     TranslateModule.forRoot({
-      defaultLanguage: 'en',
+      defaultLanguage: 'pt',
       loader: {
         provide: TranslateLoader,
         useFactory: HttpLoaderFactory,
-        deps: [HttpClient]
-      }
-    })
+        deps: [HttpClient],
+      },
+    }),
   ],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
   providers: [

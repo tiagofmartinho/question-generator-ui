@@ -1,39 +1,46 @@
 {
-    "app": {
-        "loading": "Loading...",
-        "serverUnavailable": "The server is not available at the moment or there was an error processing your request. Please try again later"
-    },
-    "login":{
-        "google": "SIGN IN WITH GOOGLE",
-        "notice1": "Use your university email if possible.",
-        "notice2": "Only your name and email are used for statistic purposes. These data will not be disclosed without your permission."
-    },
-    "header": {
-        "description": "Generates questions about your own code!"
-    },
-    "codeSubmission": {
-        "hello": "Hello",
-        "instruction": "Copy and paste your code or select a .java file from your system. Make sure it has no errors!",
-        "pickFile": "Select file...",
-        "submitCode": "SUBMIT CODE",
-        "noQuestionsGenerated": "No questions were generated for the code you submitted. Add at least a function to your submission.",
-        "syntaticErrors": "Your code contains errors. Please submit syntactically correct code."
-
-    },
-    "answerSubmission": {
-        "instruction": "Answer to the following questions about your code:",
-        "true": "True",
-        "false": "False",
-        "confidenceLevel": "Confidence level for the given answer:",
-        "submitAnswers": "SUBMIT ANSWERS",
-        "newSubmission": "NEW SUBMISSION",
-        "correctAnswerIs": "The correct answer for this question is:",
-        "decrementor": "Decrementor",
-        "incrementor": "Incrementor",
-        "accumulator": "Accumulator",
-        "invalidSubmission": "Invalid submission. Please fill all fields.",
-        "allAnswersCorrect": "You answered all questions correctly!",
-        "submissionIncorrect": "You answered at least one question incorrectly.",
-        "oneValuePerLine": "Type 1 value per line..."
-    }
+  "app": {
+    "loading": "Loading...",
+    "serverUnavailable": "The server is not available at the moment or there was an error processing your request. Please try again later"
+  },
+  "login": {
+    "google": "SIGN IN WITH GOOGLE",
+    "notice1": "Use your university email if possible.",
+    "notice2": "Only your name and email are used for statistic purposes. This data will not be disclosed without your permission.",
+    "notice3": "Your name and student number are used for statistic purposes. This data will not be disclosed without your permission.",
+    "submit": "SUBMIT"
+  },
+  "header": {
+    "description": "Generates questions about your own code!"
+  },
+  "codeSubmission": {
+    "hello": "Hello",
+    "student": "student",
+    "instruction": "Copy and paste your code or select a .java file from your system. Make sure it has no errors!",
+    "studentDataInstruction": "Please insert your name and student number",
+    "pickFile": "Select file...",
+    "submitCode": "SUBMIT CODE",
+    "noQuestionsGenerated": "No questions were generated for the code you submitted. Add at least a function to your submission.",
+    "syntaticErrors": "Your code contains errors. Please submit syntactically correct code.",
+    "firstName": "First name:",
+    "lastName": "Last name:",
+    "studentNumber": "Student number:",
+    "duplicate": "Code for this student number was already submitted."
+  },
+  "answerSubmission": {
+    "instruction": "Answer to the following questions about your code:",
+    "true": "True",
+    "false": "False",
+    "confidenceLevel": "Confidence level for the given answer:",
+    "submitAnswers": "SUBMIT ANSWERS",
+    "newSubmission": "NEW SUBMISSION",
+    "correctAnswerIs": "The correct answer for this question is:",
+    "decrementor": "Decrementor",
+    "incrementor": "Incrementor",
+    "accumulator": "Accumulator",
+    "invalidSubmission": "Invalid submission. Please fill all fields.",
+    "allAnswersCorrect": "You answered all questions correctly!",
+    "submissionIncorrect": "You answered at least one question incorrectly.",
+    "oneValuePerLine": "Type 1 value per line..."
+  }
 }

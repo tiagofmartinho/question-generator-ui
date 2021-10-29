@@ -5,8 +5,8 @@ import { Question } from '../model/question.model';
 import { Interaction } from '../model/interaction.model';
 import { ToastrService } from 'ngx-toastr';
 import { HttpErrorResponse } from '@angular/common/http';
-import {NgxSpinner, NgxSpinnerService} from 'ngx-spinner';
-import {Subscription} from 'rxjs';
+import { NgxSpinnerService } from 'ngx-spinner';
+import { Subscription } from 'rxjs';
 import { TranslateService } from '@ngx-translate/core';
 
 @Component({
@@ -26,7 +26,12 @@ export class CodeSubmissionComponent implements OnInit {
     interaction: Interaction;
   }>();
 
-  constructor(private service: AppService, private toastr: ToastrService, private spinner: NgxSpinnerService, private translate: TranslateService) {}
+  constructor(
+    private service: AppService,
+    private toastr: ToastrService,
+    private spinner: NgxSpinnerService,
+    private translate: TranslateService
+  ) {}
 
   ngOnInit(): void {}
 
@@ -92,12 +97,13 @@ export class CodeSubmissionComponent implements OnInit {
   private handleError(error: HttpErrorResponse): void {
     console.log(error);
     if (error.status === 400) {
-        this.toastr.error(
-          this.translate.instant('codeSubmission.syntaticErrors')
-        );
-    } else if (error.status === 500) {
-      this.toastr.error(this.translate.instant('app.serverUnavailable')
+      this.toastr.error(
+        this.translate.instant('codeSubmission.syntaticErrors')
       );
+    } else if (error.status === 500) {
+      this.toastr.error(this.translate.instant('app.serverUnavailable'));
+    } else if (error.status === 409) {
+      this.toastr.error(this.translate.instant('codeSubmission.duplicate'));
     }
   }
 }

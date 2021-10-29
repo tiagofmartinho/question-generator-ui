@@ -5,7 +5,7 @@ import { Interaction } from './model/interaction.model';
 import { User } from './model/user.model';
 import 'codemirror/mode/clike/clike';
 import { CodemirrorComponent } from '@ctrl/ngx-codemirror';
-import {HttpErrorResponse} from '@angular/common/http';
+import { HttpErrorResponse } from '@angular/common/http';
 
 @Component({
   selector: 'app-root',

@@ -8,7 +8,7 @@ import { User } from '../model/user.model';
   styleUrls: ['./login.component.scss'],
 })
 export class LoginComponent implements OnInit {
-  @Output() loginEvent = new EventEmitter<{user: User, phase: number}>();
+  @Output() loginEvent = new EventEmitter<{ user: User; phase: number }>();
 
   constructor(private authService: SocialAuthService) {}
 
@@ -20,9 +20,10 @@ export class LoginComponent implements OnInit {
         firstName: data.firstName,
         lastName: data.lastName,
         email: data.email,
+        studentNumber: null,
       };
       console.log(user);
-      this.loginEvent.emit({ user, phase: 1});
+      this.loginEvent.emit({ user, phase: 1 });
     });
   }
 }
